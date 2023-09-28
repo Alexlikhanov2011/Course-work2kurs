@@ -5,13 +5,13 @@ import model.Question;
 import java.util.Collection;
 
 public interface QuestionService {
-void addQuestion(String question, String answer);
+    Question add(String question, String answer);
 
-void addQuestion(Question question);
+    Question add(Question question);
 
-boolean removeQuestion(String question, String answer);
+    Question remove(Question question);
 
-Collection <Question> getAll();
+    Collection<Question> getAll();
 
-Question getRandomQuestion();
+    Question getRandomQuestion();
 }

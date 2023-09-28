@@ -1,28 +1,36 @@
 package controller;
 
 import model.Question;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import service.QuestionService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import service.JavaQuestionService;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Collection;
 
 @RestController
-@RequestMapping("/question")
+@RequestMapping("/exam/java")
 public class JavaQuestionController {
-    private final QuestionService service;
+    private final JavaQuestionService questionService;
 
-    public JavaQuestionController(QuestionService service) {
-        this.service = service;
+    public JavaQuestionController(JavaQuestionService questionService) {
+        this.questionService = questionService;
     }
 
     @GetMapping("/add")
-    public void addQuestion(@RequestParam Question question) {
-        service.addQuestion(question);
+    public Question add(String question, String answer) {
+        return questionService.add(question, answer);
     }
+
     @GetMapping("/remove")
-    public boolean removeQuestion(@RequestParam String question,@RequestParam String answer ) {
-       return service.removeQuestion(question,answer );
+    public Question remove(String question, String answer) {
+        return questionService.add(question, answer);
+    }
+
+    @GetMapping
+    public Collection<Question> getAll() {
+        return questionService.getAll();
     }
 }
+
+

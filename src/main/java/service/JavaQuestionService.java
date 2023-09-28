@@ -1,45 +1,48 @@
 package service;
 
+import exception.QuestionAlreadyExistsException;
+import exception.QuestionNotFoundException;
 import model.Question;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+
 @Service
 public class JavaQuestionService implements QuestionService {
-    //Set<Question> questions;
-    private List<Question> questions = new ArrayList<>();
+    private static final Random RANDOM = new Random();
+    List<Question> questions = new ArrayList<>();
+
     @Override
-    public void addQuestion(String question, String answer) {
-        questions.add(new Question(question, answer));
+    public Question add(String question, String answer) {
+        return add(new Question(question, answer));
     }
 
     @Override
-    public void addQuestion(Question question) {
-
-    }
-
-    @Override
-    public boolean removeQuestion(String question, String answer) {
-        for (Question q : questions) {
-            if (q.getQuestion().equals(question) && q.getAnswer().equals(answer)) {
-                questions.remove(q);
-                return true;
-            }
+    public Question add(Question question) {
+        if (questions.contains(question)) {
+            throw new QuestionAlreadyExistsException();
         }
-        return false;
+        questions.add(question);
+        return question;
+    }
+
+    @Override
+    public Question remove(Question question) {
+        if (questions.remove(question)) {
+            return question;
+        }
+        throw new QuestionNotFoundException();
     }
 
     @Override
     public Collection<Question> getAll() {
-        return questions;
+        return Collections.unmodifiableCollection(questions);
     }
 
     @Override
     public Question getRandomQuestion() {
-        Random random = new Random();
-        int randomNumber = random.nextInt(questions.size());
-        return questions.get(randomNumber);
+        return questions.get(RANDOM.nextInt(questions.size()));
     }
 }
 
