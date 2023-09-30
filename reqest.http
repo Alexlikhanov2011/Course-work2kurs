@@ -1,0 +1,2 @@
+GET http://localhost:8080/question/add?question=QuestionText&answer=QuestionAnswer
+GET
